@@ -10,9 +10,6 @@ minas-morgul
   - [1. Fill in configuration in `docker-compose.yml`](#1-fill-in-configuration-in-docker-composeyml)
   - [2. Create a docker volume](#2-create-a-docker-volume)
   - [3. Bring up the setup](#3-bring-up-the-setup)
-- [Production Deployment](#production-deployment)
-  - [Using provided scripts](#using-provided-scripts)
-  - [Other possibilities](#other-possibilities)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -66,13 +63,3 @@ docker volume create --name=minas-morgul_db
 ```bash
 docker-compose up
 ```
-
-# Production Deployment
-
-## Using provided scripts
-
-TBD
-
-## Other possibilities
-
-TBD
