@@ -1,0 +1,45 @@
+version: "2"
+
+services:
+  minas-morgul-db:
+    image: postgres:11
+    container_name: "minas-morgul-db"
+    volumes:
+      - "minas-morgul_db:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=minas-morgul
+      - POSTGRES_PASSWORD=minas-morgul
+      - POSTGRES_DB=minas-morgul
+    ports:
+      - "5432:5432"
+    network_mode: bridge
+
+  minas-morgul-server:
+    image: quay.io/setuinfra/minas-morgul:<tag>
+    environment:
+      # Switch server credentials
+      - HTTP_PROXY=http://<user>:<password>@<switch-server>.setu.co:<port>
+      - ALL_PROXY=http://<user>:<password>@<switch-server>.setu.co:<port>
+      # Application config
+      - APPLICATION_HOST=0.0.0.0
+      - APPLICATION_PORT=3000
+      - APPLICATION_DB_CONTAINER=minas-morgul-db
+      - LOG_IN_FILE=nope
+      # Database config
+      - PGHOST=minas-morgul-db
+      - PGPORT=5432
+      - PGUSER=minas-morgul
+      - PGPASSWORD=minas-morgul
+      - PGDATABASE=minas-morgul
+    command: /app/server
+    ports:
+      - 3000:3000
+    network_mode: bridge
+    depends_on:
+      - minas-morgul-db
+    links:
+      - minas-morgul-db
+
+volumes:
+  minas-morgul_db:
+    external: true
